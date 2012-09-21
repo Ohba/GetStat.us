@@ -27,9 +27,13 @@
 	  </div>
 	</div>
 	<div class="container">
-		<form>
-			<input type="text" name="url"/>
-		</form>
+		<div class="main">
+			<span>Enter a URL below to be shortened</span>
+			<form>
+				<input type="text" name="url" class="fun" placeholder="http://"/>
+				<button class="btn btn-primary">Go!</button>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

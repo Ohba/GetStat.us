@@ -1,0 +1,11 @@
+body{ padding-top: 45px;}
+.navbar .brand{ 
+	font-weight: bold;
+	color: #fff;
+}
+.main{ margin-top: 50px;}
+input[type="text"].fun{
+	width: 750px;
+	height: 25px;
+	border-radius: 15px;
+}
