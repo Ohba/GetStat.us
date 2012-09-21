@@ -7,6 +7,11 @@
 	<script type="text/javascript" src="public/js/project.js"></script>
 </head>
 <body>
+	<pre>
+		<?php 
+			echo $_SERVER['REQUEST_URI'];
+		?>
+	</pre>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="navbar-inner">
 	    <div class="container">
