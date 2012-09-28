@@ -15,7 +15,7 @@
 
 	dispatch('/test', 'testing');
 	  function testing(){
-	  	return parse_url($_SERVER["DATABASE_URL"]);
+	  	return print_r(parse_url($_SERVER["DATABASE_URL"]));
 		// $STH = $GLOBALS['database']->query('SELECT * FROM urls');
 		// $row = $STH->fetch();
 		// return print_r($row);
