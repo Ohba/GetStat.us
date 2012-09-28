@@ -1,6 +1,5 @@
 <?php 
 	require_once 'lib/limonade.php';
-	echo print_r(parse_url($_SERVER["DATABASE_URL"]));
 	if(isset($_SERVER["DATABASE_URL"])){
 		require_once 'db/heroku_connection.php';
 	}else{
