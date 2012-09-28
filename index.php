@@ -23,10 +23,10 @@
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
 			$data = array('stuff' => params('short'));
-			$STH = $GLOBALS['database']->prepare('SELECT * FROM urls WHERE request = :stuff');
+			$STH = $GLOBALS['database']->prepare('SELECT destinantion FROM urls WHERE request = :stuff');
 			$STH->execute($data);
-			$row = $STH->fetch();
-			return print_r($row);
+			$row = $STH->fetchColumn();
+			return redirect_to($row);
 		}
 	run();
 
