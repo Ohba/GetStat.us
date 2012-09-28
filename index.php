@@ -1,13 +1,11 @@
 <?php 
 	require_once 'lib/limonade.php';
+	require_once 'db/connection.php';
 	function configure()
 	{
 		$env = contains('localhost', $_SERVER['HTTP_HOST']) ? ENV_DEVELOPMENT : ENV_PRODUCTION;
     	option('env', $env);
 		option('debug', true);
-		if(option('env') === ENV_DEVELOPMENT){
-			option('base_uri', 'getstatus');
-		}	
 	}
 
 	dispatch('/', 'hello');
@@ -15,10 +13,21 @@
 	      return render('index.html.php');
 	  }
 
-	dispatch("/test", 'testing');
+	dispatch('/test', 'testing');
 	  function testing(){
-	  	  return 'test';
+		$STH = $GLOBALS['database']->query('SELECT * FROM urls');
+		$row = $STH->fetch();
+		return print_r($row);
 	  }
+
+	dispatch('/g/:short', 'stuff');
+		function stuff(){
+			$data = array('stuff' => params('short'));
+			$STH = $GLOBALS['database']->prepare('SELECT * FROM urls WHERE request = :stuff');
+			$STH->execute($data);
+			$row = $STH->fetch();
+			return print_r($row);
+		}
 	run();
 
 	function contains($substring, $string) {
