@@ -19,9 +19,13 @@
 
 	dispatch('/test', 'testing');
 	  function testing(){
-		$STH = $GLOBALS['database']->query('SELECT * FROM urls');
-		$row = $STH->fetch();
-		return print_r($row);
+	  	$info = env();
+	  	$test = "nothing";
+	  	if(isset($info["SERVER"])){
+	  		$server = $info["SERVER"];
+	  		$test = $server["HTTP_REFERER"];
+	  	}
+		return $test;
 	  }
 
 	dispatch('/g/:short', 'stuff');
