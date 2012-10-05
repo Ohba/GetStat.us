@@ -28,10 +28,17 @@
 		return $test;
 	  }
 
+	dispatch_post('/info', info);
+		function info(){
+			$info = env();
+			$post = $info["POST"];
+			return print_r($post['url']);
+		}
+
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
 			$data = array('stuff' => params('short'));
-			$STH = $GLOBALS['database']->prepare('SELECT destinantion FROM urls WHERE request = :stuff');
+			$STH = $GLOBALS['database']->prepare('SELECT destination FROM urls WHERE short = :stuff');
 			$STH->execute($data);
 			$row = $STH->fetchColumn();
 			return redirect_to($row);

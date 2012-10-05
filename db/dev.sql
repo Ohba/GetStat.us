@@ -1,8 +1,8 @@
 -- Create URLS table.
 CREATE TABLE urls
 ( id int NOT NULL PRIMARY KEY
-, destinantion varchar(255) NOT NULL
-, request varchar(255) NOT NULL
+, destination varchar(255) NOT NULL
+, short varchar(255) NOT NULL
 , created date NOT NULL	
 );
 
