@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once 'lib/limonade.php';
 	if(isset($_SERVER["DATABASE_URL"])){
 		require_once 'db/heroku_connection.php';
