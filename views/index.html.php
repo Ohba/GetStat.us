@@ -29,7 +29,7 @@
 	<div class="container">
 		<div class="main">
 			<span>Enter a URL below to be shortened</span>
-			<form>
+			<form method="post" action="index.php/randstring">
 				<input type="text" name="url" class="fun" placeholder="http://"/>
 				<button class="btn btn-primary">Go!</button>
 			</form>
@@ -37,3 +37,12 @@
 	</div>
 </body>
 </html>
+
+
+<?php
+if(isset($_post['url'])){
+	$url=$_post['url'];
+	$sql="INSERT INTO urls(destination,short) VALUES('$url','$randomstring')";
+}
+
+?>
