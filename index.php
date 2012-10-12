@@ -35,8 +35,6 @@
 			return print_r($post['url']);
 		}
 
-<<<<<<< HEAD
-=======
 	dispatch('/helloWorld', helloWorld);
 		function helloWorld(){
 			print("Hello World");
@@ -57,7 +55,6 @@
  	   		return $randomString;
 		}
 
->>>>>>> added random string generator, modifications to button action
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
 			$data = array('stuff' => params('short'));
