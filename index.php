@@ -39,6 +39,16 @@
 		function helloWorld(){
 			print("Hello World");
 		}
+
+	dispatch_post('/register', register);
+		function register(){
+			print('register');
+		}
+
+	dispatch_post('/signin', signin);
+		function signin(){
+			print('signin');
+		}
 	
 //	dispatch('/shortener', shortener)		
 //		function shortener(){
