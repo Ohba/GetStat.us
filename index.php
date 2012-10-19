@@ -44,7 +44,7 @@
 //		function shortener(){
 //		}
 
-	dispatch('/randstring',randomString);
+	dispatch_post('/randstring',randomString);
 		function randomString($length = 10) {
 	  	  	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    	$randomString = '';

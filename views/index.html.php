@@ -29,7 +29,7 @@
 	<div class="container">
 		<div class="main">
 			<span>Enter a URL below to be shortened</span>
-			<form method="post" action="index.php/randstring">
+			<form method="post" action="randstring">
 				<input type="text" name="url" class="fun" placeholder="http://"/>
 				<button class="btn btn-primary">Go!</button>
 			</form>
