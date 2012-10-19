@@ -15,8 +15,8 @@
 		<h3>Sign In</h3>
 	  </div>
 	  <div class="modal-body">
-	  	<div class="alert alert-error hide"></div>
 		<form class="form-horizontal signin-form">
+		  <div class="alert alert-error hide"></div>
 		  <div class="control-group hide register-name">
 			<label class="control-label" for="inputName">Name</label>
 			<div class="controls">
@@ -47,7 +47,7 @@
 		<a class="clickable btn btn-primary signin" data-action="/signin">Sign In</a>
 	  </div>
 	</div>
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-fixed-top">
 	  <div class="navbar-inner">
 		<div class="container">
 		  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -59,7 +59,11 @@
 		  <div class="nav-collapse collapse">
 			<ul class="nav">
 			  <li>
-				<a data-toggle="modal" data-target="#signInModal">Sign In</a>
+			  	<?php if(h($name)) {?>
+					<a href="/logout">Logout</a>
+				<?php } else {?>
+					<a data-toggle="modal" data-target="#signInModal">Sign In</a>
+				<?php } ?>
 			  </li>
 			</ul>
 		  </div>
@@ -77,12 +81,3 @@
 	</div>
 </body>
 </html>
-
-
-<?php
-if(isset($_post['url'])){
-	$url=$_post['url'];
-	$sql="INSERT INTO urls(destination,short) VALUES('$url','$randomstring')";
-}
-
-?>

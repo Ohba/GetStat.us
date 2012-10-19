@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$('#register-help .clickable').on('click', loadSignIn);
 	$('#signInModal').on('click', '.signin', signIn);
 	$('#signInModal').on('click', '.register', register);
+	$('#signInModal').on('hide', modalClose);
 
 
 	//Callbacks
@@ -11,12 +12,14 @@ $(document).ready(function(){
 	* Change form to accept user registration
 	*/
 	function loadRegister(e){
+		var form = $('.signin-form');
+		_clearErrors(form);
 		$('.register-name').fadeIn();
 		$('.signin').text('Register')
 			.removeClass('signin')
 			.addClass('register')
 			.attr('data-action', '/register');
-		$('.signin-form').addClass('register-form')
+		form.addClass('register-form')
 			.removeClass('signin-form');
 		$('#signin-help').addClass('hide');
 		$('#register-help').removeClass('hide');
@@ -26,12 +29,14 @@ $(document).ready(function(){
 	* Change form to accept user signin
 	*/
 	function loadSignIn(e){
+		var form = $('.register-form');
+		_clearErrors(form);
 		$('.register-name').fadeOut();
 		$('.register').text('Sign In')
 			.removeClass('register')
 			.addClass('signin')
 			.attr('data-action', '/signin');
-		$('.register-form').addClass('signin-form')
+		form.addClass('signin-form')
 			.removeClass('register-form');
 		$('#signin-help').removeClass('hide');
 		$('#register-help').addClass('hide');
@@ -62,6 +67,13 @@ $(document).ready(function(){
 		}
 	}
 
+	function modalClose(e){
+		var modal = $(e.target),
+			form = $(modal.find('form'));
+		_clearErrors(form);
+		_clearForm(form);
+	}
+
 	//AJAX Callbacks
 	function signInSuccess(data){
 		console.log(data);
@@ -81,14 +93,14 @@ $(document).ready(function(){
 	function _validate(form){
 		var errors = {};
 		var inputs = form.find('input:visible');
+		_clearErrors(form);
 		inputs.each(function(index, input){
-			$(input).removeClass('red');
 			_validation[$(input).attr('type')](errors, input);
 		});
 		if(!$.isEmptyObject(errors)){
 			var list = $('<ul>');
 			for(var i in errors){
-				$(errors[i]).addClass('red');
+				$(errors[i]).closest('.control-group').addClass('error');
 				var item = $('<li>').text(i);
 				list.append(item);
 			}
@@ -97,6 +109,15 @@ $(document).ready(function(){
 		}else{
 			return true;
 		}
+	}
+
+	function _clearErrors(form){
+		form.find('.control-group').removeClass('error');
+		form.find('.alert').fadeOut().html('');
+	}
+
+	function _clearForm(form){
+		form.find('input').val('');
 	}
 
 	var _validation= {

@@ -15,7 +15,12 @@
 
 	dispatch('/', 'hello');
 	  function hello(){
-	      return render('index.html.php');
+	  	if(isset($_SESSION['user'])){
+	  		set('name', $_SESSION['user']['name']);
+	  	}else{
+	  		set('name', '');
+	  	}
+	    return render('index.html.php');
 	  }
 
 	dispatch('/test', 'testing');
@@ -52,20 +57,43 @@
 			$query->execute($data);
 
 			if($query->errorCode() == 0) {
-			    return 'success';
+			    return json_encode(array('name' => $post['name'], 'email' => $post['email']));
 			} else {
 			    $errors = $query->errorInfo();
 			    status(SERVER_ERROR);
 			    return $errors[2];
 			}
-			//return print_r($GLOBALS['database']->errorInfo());
 		}
 
 	dispatch_post('/signin', signin);
 		function signin(){
-			print('signin');
+			$env = env();
+			$post = $env['POST'];
+			$data = array('email' => $post['email']);
+			$query = $GLOBALS['database']->prepare('SELECT name, email, password FROM users WHERE email = :email');
+			$query->execute($data);
+			$row = $query->fetchAll();
+			$name = $row[0]['name'];
+			$email = $row[0]['email'];
+			$password = $row[0]['password'];
+			$is_correct = Bcrypt::check($post['password'], $password);
+			if($query->errorCode() == 0 && $is_correct) {
+				$_SESSION['user'] = array('name' => $name, 'email' => $email);
+			    return json_encode($_SESSION['user']);
+			} elseif(!$is_correct) {
+				status(SERVER_ERROR);
+			    return 'Password and Email do not match';
+			}else{
+			    $errors = $query->errorInfo();
+			    status(SERVER_ERROR);
+			    return $errors[2];
+			}
 		}
-	
+	dispatch('/logout', logout);
+		function logout(){
+			unset($_SESSION['user']);
+			redirect_to('');
+		}
 //	dispatch('/shortener', shortener)		
 //		function shortener(){
 //		}
@@ -89,6 +117,8 @@
 			$row = $STH->fetchColumn();
 			return redirect_to($row);
 		}
+
+
 	run();
 
 	function contains($substring, $string) {
