@@ -7,3 +7,4 @@ input[type="text"].fun{width: 730px;height: 25px;border-radius: 15px;}
 /*RESUABLE COMPONENTS*/
 .clickable{cursor: pointer;}
 .text-center{text-align: center;}
+form input.red{border: 1px solid red;}

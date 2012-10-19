@@ -2,8 +2,8 @@ $(document).ready(function(){
 	//Selectors
 	$('#signin-help .clickable').on('click', loadRegister);
 	$('#register-help .clickable').on('click', loadSignIn);
-	$('.signin').on('click', signIn);
-	$('.register').on('click', register);
+	$('#signInModal').on('click', '.signin', signIn);
+	$('#signInModal').on('click', '.register', register);
 
 
 	//Callbacks
@@ -39,17 +39,27 @@ $(document).ready(function(){
 	}
 
 	function signIn(e){
-		var action = $(e.target).attr('data-action'),
-			data = $('.signin-form').serialize();
-
-		$.post(action, data).success(signInSuccess);
+		var form = $('.signin-form');
+		if(_validate(form)){
+			var action = $(e.target).attr('data-action'),
+				data = form.serialize();
+				_clearAlerts();
+				$.post(action, data)
+					.success(signInSuccess)
+					.error(modalError);
+		}
 	}
 
 	function register(e){
-		var action = $(e.target).attr('data-action'),
-			data = $('.register-form').serialize();
-
-		$.post(action, data).success(registerSuccess);
+		var form = $('.register-form');
+		if(_validate(form)){
+			var action = $(e.target).attr('data-action'),
+				data = form.serialize();
+			_clearAlerts();
+			$.post(action, data)
+				.success(signInSuccess)
+				.error(modalError);
+		}
 	}
 
 	//AJAX Callbacks
@@ -57,7 +67,55 @@ $(document).ready(function(){
 		console.log(data);
 	}
 
-	function registerSuccess(data){
-		console.log(data);
+	function modalError(data){
+		var alertInfo = $('#signInModal .alert-error');
+		alertInfo.text(data.responseText)
+			.fadeIn();
 	}
+
+	//PRIVATE FUNCTIONS
+	function _clearAlerts(){
+		$('.alert').fadeOut();
+	}
+
+	function _validate(form){
+		var errors = {};
+		var inputs = form.find('input:visible');
+		inputs.each(function(index, input){
+			$(input).removeClass('red');
+			_validation[$(input).attr('type')](errors, input);
+		});
+		if(!$.isEmptyObject(errors)){
+			var list = $('<ul>');
+			for(var i in errors){
+				$(errors[i]).addClass('red');
+				var item = $('<li>').text(i);
+				list.append(item);
+			}
+			$('#signInModal .alert-error').html(list).fadeIn();
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	var _validation= {
+		password: function(errors, input){
+			if($(input).val().trim() === ""){
+				errors['password may not be empty'] = input;
+			}
+		},
+
+		email: function(errors, input){
+			if($(input).val().trim() === ""){
+				errors['email may not be empty'] = input;
+			}
+		},
+
+		text: function(errors, input){
+			if($(input).val().trim() === ""){
+				errors['text may not be empty'] = input;
+			}
+		}
+	};
 });

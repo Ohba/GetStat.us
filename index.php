@@ -1,5 +1,6 @@
 <?php
 	require_once 'lib/limonade.php';
+	require_once 'lib/bcrypt.php';
 	if(isset($_SERVER["DATABASE_URL"])){
 		require_once 'db/heroku_connection.php';
 	}else{
@@ -42,7 +43,22 @@
 
 	dispatch_post('/register', register);
 		function register(){
-			print('register');
+			$env = env();
+			$post = $env['POST'];
+			$data = array('name' => $post['name'], 
+							'email' => $post['email'],
+							'password' => Bcrypt::hash($post['password']));
+			$query = $GLOBALS['database']->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
+			$query->execute($data);
+
+			if($query->errorCode() == 0) {
+			    return 'success';
+			} else {
+			    $errors = $query->errorInfo();
+			    status(SERVER_ERROR);
+			    return $errors[2];
+			}
+			//return print_r($GLOBALS['database']->errorInfo());
 		}
 
 	dispatch_post('/signin', signin);
