@@ -76,7 +76,7 @@ $(document).ready(function(){
 
 	//AJAX Callbacks
 	function signInSuccess(data){
-		console.log(data);
+		window.location = window.location.origin + "/admin";
 	}
 
 	function modalError(data){

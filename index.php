@@ -11,6 +11,7 @@
 		$env = contains('localhost', $_SERVER['HTTP_HOST']) ? ENV_DEVELOPMENT : ENV_PRODUCTION;
     	option('env', $env);
 		option('debug', true);
+		layout('layout.html.php');
 	}
 
 	dispatch('/', 'hello');
@@ -73,10 +74,13 @@
 			$query = $GLOBALS['database']->prepare('SELECT name, email, password FROM users WHERE email = :email');
 			$query->execute($data);
 			$row = $query->fetchAll();
-			$name = $row[0]['name'];
-			$email = $row[0]['email'];
-			$password = $row[0]['password'];
-			$is_correct = Bcrypt::check($post['password'], $password);
+			$is_correct = false;
+			if(isset($row[0])){
+				$name = $row[0]['name'];
+				$email = $row[0]['email'];
+				$password = $row[0]['password'];
+				$is_correct = Bcrypt::check($post['password'], $password);
+			}
 			if($query->errorCode() == 0 && $is_correct) {
 				$_SESSION['user'] = array('name' => $name, 'email' => $email);
 			    return json_encode($_SESSION['user']);
@@ -94,6 +98,16 @@
 			unset($_SESSION['user']);
 			redirect_to('');
 		}
+	dispatch('/admin', admin);
+		function admin(){
+			if(isset($_SESSION['user'])){
+				set('name', $_SESSION['user']['name']);
+				return render('admin.html.php');
+			}else{
+				redirect_to('');
+			}
+		}
+
 //	dispatch('/shortener', shortener)		
 //		function shortener(){
 //		}

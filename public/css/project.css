@@ -3,6 +3,8 @@ body{padding-top: 45px;-webkit-font-smoothing: antialiased;-moz-font-smoothing: 
 .navbar .brand{font-weight: bold;color: #fff;}
 .main{margin-top: 50px;}
 input[type="text"].fun{width: 730px;height: 25px;border-radius: 15px;}
+.welcome{font-weight: bold;color: white;padding: 14px;}
+.welcome:hover{text-decoration: none; color: #fff;}
 
 /*RESUABLE COMPONENTS*/
 .clickable{cursor: pointer;}
