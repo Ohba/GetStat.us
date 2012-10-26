@@ -1,3 +1,8 @@
+<?php
+	if(h($user)){ 
+		$user = unserialize(h($user)); 
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +10,7 @@
 	<link type="text/css" href="public/css/bootstrap.css" rel="stylesheet" />
 	<link type="text/css" href="public/css/project.css" rel="stylesheet" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript" src="public/js/morris.js"></script>
 	<script type="text/javascript" src="public/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="public/js/project.js"></script>
 </head>
@@ -20,15 +26,15 @@
 		  <a class="brand" href="/">GetStat.us</a>
 		  <div class="nav-collapse collapse">
 			<ul class="nav">
-			  <li id="logoutLink" class="<?php if(!h($name)){ echo 'hide';} ?>">
+			  <li id="logoutLink" class="<?php if(!$user){ echo 'hide';} ?>">
 				<a href="/logout">Logout</a>
 			  </li>
-			  <li id="signinLink" class="<?php if(h($name)){ echo 'hide';} ?>">
+			  <li id="signinLink" class="<?php if($user){ echo 'hide';} ?>">
 				<a data-toggle="modal" data-target="#signInModal">Sign In</a>
 			  </li>
 			</ul>
-			<?php if(h($name)){ ?>
-				<a id="user" class="pull-right welcome">Welcome <?php echo h($name)?>!</a>
+			<?php if($user){ ?>
+				<a id="user" class="pull-right welcome">Welcome <?php echo $user['name'] ?>!</a>
 			<?php } else { ?>
 				<a id="user" class="pull-right welcome hide"></a>
 			<?php } ?>

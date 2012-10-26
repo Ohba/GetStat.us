@@ -17,9 +17,9 @@
 	dispatch('/', 'hello');
 	  function hello(){
 	  	if(isset($_SESSION['user'])){
-	  		set('name', $_SESSION['user']['name']);
+	  		set('user', serialize($_SESSION['user']));
 	  	}else{
-	  		set('name', '');
+	  		set('user', '');
 	  	}
 	    return render('index.html.php');
 	  }
@@ -71,18 +71,19 @@
 			$env = env();
 			$post = $env['POST'];
 			$data = array('email' => $post['email']);
-			$query = $GLOBALS['database']->prepare('SELECT name, email, password FROM users WHERE email = :email');
+			$query = $GLOBALS['database']->prepare('SELECT * FROM users WHERE email = :email');
 			$query->execute($data);
 			$row = $query->fetchAll();
 			$is_correct = false;
 			if(isset($row[0])){
+				$id = $row[0]['id'];
 				$name = $row[0]['name'];
 				$email = $row[0]['email'];
 				$password = $row[0]['password'];
 				$is_correct = Bcrypt::check($post['password'], $password);
 			}
 			if($query->errorCode() == 0 && $is_correct) {
-				$_SESSION['user'] = array('name' => $name, 'email' => $email);
+				$_SESSION['user'] = array('name' => $name, 'email' => $email, 'id' => $id);
 			    return json_encode($_SESSION['user']);
 			} elseif(!$is_correct) {
 				status(SERVER_ERROR);
@@ -101,7 +102,9 @@
 	dispatch('/admin', admin);
 		function admin(){
 			if(isset($_SESSION['user'])){
-				set('name', $_SESSION['user']['name']);
+				set('user', serialize($_SESSION['user']));
+				$urls = serialize(getUsersUrls($_SESSION['user']['id']));
+				set('urls', $urls);
 				return render('admin.html.php');
 			}else{
 				redirect_to('');
@@ -134,6 +137,14 @@
 
 
 	run();
+
+	function getUsersUrls($id){
+		$data = array('userId' => $id);
+		$query = $GLOBALS['database']->prepare('SELECT u.* FROM urls u INNER JOIN lookup l ON l.url_id = u.id INNER JOIN users us ON us.id = l.user_id WHERE us.id = :userId');
+		$query->execute($data);
+		$row = $query->fetchAll();
+		return $row;
+	}
 
 	function contains($substring, $string) {
         $pos = strpos($string, $substring);
