@@ -39,7 +39,7 @@
 
 <div class="main hero-unit text-center">
 	<h2>Enter a URL below to be shortened</h2>
-	<form method="post" action="randstring" class="form-search">
+	<form method="post" action="created" class="form-search">
 		<input type="text" name="url" class="fun input-medium search-query" placeholder="http://"/>
 		<button class="btn btn-primary">Go!</button>
 	</form>

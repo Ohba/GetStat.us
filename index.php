@@ -111,9 +111,19 @@
 			}
 		}
 
-//	dispatch('/shortener', shortener)		
-//		function shortener(){
-//		}
+//$url=$_POST['url'];
+		
+
+	dispatch('/created',dbInsert);
+		function dbInsert($url,$sql){
+			$url=$_POST['url'];
+			$sql="INSERT INTO urls(destination,short) values('$url','$randomstring') ";
+			echo "$url $randomString"; 
+		}
+
+
+	//dispatch_post()		
+
 
 	dispatch_post('/randstring',randomString);
 		function randomString($length = 10) {
