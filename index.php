@@ -113,6 +113,9 @@
 	
 		function dbInsert(){
 			$url=$_POST['url'];
+			if(preg_match("/^http/",$url) == 0){
+				$url='http://'.$url;
+			}
 			do{
 				$randomstring=randomString();
 				$STH = $GLOBALS['database']->prepare("SELECT count(*) FROM urls WHERE short='$randomstring'");
@@ -121,7 +124,7 @@
 			} while ($row != 0);
 			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
 			$query->execute();
-			//echo "$url $randomString"; 
+			return $randomstring;
 		}
 
 
