@@ -117,7 +117,12 @@
 	
 		function dbInsert(){
 			$url=$_POST['url'];
-			$randomstring=randomString();
+			do{
+				$randomstring=randomString();
+				$STH = $GLOBALS['database']->prepare("SELECT count(*) FROM urls WHERE short='$randomstring'");
+				$STH->execute();
+				$row = $STH->fetchColumn();
+			} while $row != 0
 			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
 			$query->execute();
 			//echo "$url $randomString"; 
@@ -127,11 +132,12 @@
 		function randomString($length = 10) {
 	  	  	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    	$randomString = '';
-	    	
-	    	for ($i = 0; $i < $length; $i++) {
+	       	for ($i = 0; $i < $length; $i++) {
 	        $randomString .= $characters[rand(0, strlen($characters) - 1)];
 	    	}
+
  	   		return $randomString;
+
 		}
 
 	dispatch('/g/:short', 'stuff');
