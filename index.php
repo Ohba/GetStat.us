@@ -113,19 +113,17 @@
 
 //$url=$_POST['url'];
 		
-
-	dispatch('/created',dbInsert);
-		function dbInsert($url,$sql){
+	dispatch_post('/created',dbInsert);
+	
+		function dbInsert(){
 			$url=$_POST['url'];
-			$sql="INSERT INTO urls(destination,short) values('$url','$randomstring') ";
-			echo "$url $randomString"; 
+			$randomstring=randomString();
+			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
+			$query->execute();
+			//echo "$url $randomString"; 
 		}
 
 
-	//dispatch_post()		
-
-
-	dispatch_post('/randstring',randomString);
 		function randomString($length = 10) {
 	  	  	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    	$randomString = '';
