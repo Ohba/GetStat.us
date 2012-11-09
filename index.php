@@ -118,7 +118,7 @@
 				$STH = $GLOBALS['database']->prepare("SELECT count(*) FROM urls WHERE short='$randomstring'");
 				$STH->execute();
 				$row = $STH->fetchColumn();
-			} while $row != 0
+			} while ($row != 0);
 			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
 			$query->execute();
 			//echo "$url $randomString"; 
