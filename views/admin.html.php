@@ -15,8 +15,8 @@ $urls = unserialize(h($urls)); ?>
 				<tbody>
 					<?php foreach ($urls as  $url) {?>
 						<tr>
-							<td data-url="/user/<?php echo $user['email'] ?>/url/<?php echo $url['id'] ?>"><?php echo $url['destination'] ?> </td>
-							<td><?php echo $url['short'] ?></td>
+							<td data-id="<?php echo $url['id'] ?>"><?php echo $url['destination'] ?> </td>
+							<td><a href="http://getstat.us/g/<?php echo $url['short'] ?>">getstat.us/g/<?php echo $url['short'] ?></a></td>
 						</tr>
 					<?php } ?>
 				</tbody>

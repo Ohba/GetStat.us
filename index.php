@@ -27,12 +27,12 @@
 	dispatch('/test', 'testing');
 	  function testing(){
 	  	$info = env();
-	  	$test = "nothing";
+	  	$referer = "nothing";
 	  	if(isset($info["SERVER"])){
 	  		$server = $info["SERVER"];
-	  		$test = $server["HTTP_REFERER"];
+	  		$referer = $server["HTTP_REFERER"];
 	  	}
-		return $test;
+		return $referer;
 	  }
 
 	dispatch_post('/register', register);
@@ -138,6 +138,7 @@
 
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
+
 			$data = array('stuff' => params('short'));
 			$STH = $GLOBALS['database']->prepare('SELECT destination FROM urls WHERE short = :stuff');
 			$STH->execute($data);
