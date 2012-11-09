@@ -101,9 +101,30 @@
 			}
 		}
 
-	dispatch('/admin/data/:id', urldata);
-		function urldata(){
+	dispatch('/admin/donut/data/:id', urlDonutData);
+		function urlDonutData(){
 			$id = params('id');
+			$data = array('id' => $id);
+			$STH = $GLOBALS['database']->prepare("SELECT origin.url AS url, COUNT(*) AS count
+													FROM origin INNER JOIN stats ON origin.id=stats.origin_id
+																INNER JOIN urls ON stats.url_id = urls.id
+													WHERE urls.id = :id
+													GROUP BY origin_id");
+			$STH->execute($data);
+			return json_encode($STH->fetchAll());
+		}
+
+	dispatch('/admin/line/data/:id', urlLineData);
+		function urlLineData(){
+			$id = params('id');
+			$data = array('id' => $id);
+			$STH = $GLOBALS['database']->prepare("SELECT DATE_FORMAT(stats.created, '%e %b %Y') AS date, COUNT(*) AS count
+													FROM origin INNER JOIN stats ON origin.id=stats.origin_id
+																INNER JOIN urls ON stats.url_id = urls.id
+													WHERE urls.id = :id
+													GROUP BY DATE_FORMAT(stats.created, '%e %b %Y')");
+			$STH->execute($data);
+			return json_encode($STH->fetchAll());
 		}
 
 

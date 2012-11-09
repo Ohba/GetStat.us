@@ -9,14 +9,14 @@ $urls = unserialize(h($urls)); ?>
 				<thead>
 					<tr>
 						<th>Urls</th>
-						<th>Shortened</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($urls as  $url) {?>
 						<tr>
-							<td data-id="<?php echo $url['id'] ?>"><?php echo $url['destination'] ?> </td>
 							<td><a href="http://getstat.us/g/<?php echo $url['short'] ?>">getstat.us/g/<?php echo $url['short'] ?></a></td>
+							<td data-id="<?php echo $url['id'] ?>">Get Stats</td>
 						</tr>
 					<?php } ?>
 				</tbody>
@@ -30,28 +30,39 @@ $urls = unserialize(h($urls)); ?>
 	</div>
 </div>
 <script type="text/javascript">
-  	Morris.Line({
-	  element: 'line',
-	  data: [
-	    {y: '2012', a: 100},
-	    {y: '2011', a: 75},
-	    {y: '2010', a: 50},
-	    {y: '2009', a: 75},
-	    {y: '2008', a: 50},
-	    {y: '2007', a: 75},
-	    {y: '2006', a: 100}
-	  ],
-	  xkey: 'y',
-	  ykeys: ['a'],
-	  labels: ['Series A']
+	$('.table [data-id]').on('click', function(){
+		var id = $(this).attr('data-id');
+		loadLineGraph(id);
+		loadDonutGraph(id);
+		
 	});
-	Morris.Donut({
-		  element: 'donut',
-		  data: [
-		    {label: "twitter.com", value: 12},
-		    {label: "facebook.com", value: 30},
-		    {label: "plus.google.com", value: 20},
-		    {label: "unspecified", value: 10}
-		  ]
-		});
+	function loadLineGraph(id){
+		$.get('/admin/line/data/' + id, function(data){
+			var line = [];
+			for(var i in data){
+				var newData = data[i]; 
+				line.push({y: newData[0], a: ~~newData[1]});
+			}
+			Morris.Line({
+			  element: 'line',
+			  data: line,
+			  xkey: 'y',
+			  ykeys: ['a'],
+			  labels: ['Series A']
+			});
+		}, 'json');
+	}
+	function loadDonutGraph(id){
+		$.get('/admin/donut/data/' + id, function(data){
+			var donut = [];
+			for(var i in data){
+				var newData = data[i]; 
+				donut.push({label: newData[0], value: ~~newData[1]});
+			}
+			Morris.Donut({
+			  element: 'donut',
+			  data: donut
+			});
+		}, 'json');
+	}
 </script>

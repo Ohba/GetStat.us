@@ -5,6 +5,9 @@ body{padding-top: 45px;-webkit-font-smoothing: antialiased;-moz-font-smoothing: 
 input[type="text"].fun{width: 730px;height: 25px;border-radius: 15px;}
 .welcome{font-weight: bold;color: white;padding: 14px;}
 .welcome:hover{text-decoration: none; color: #fff;}
+.table td[data-id]{cursor: pointer;}
+.table td[data-id]:hover{background-color: #ddd;}
+
 
 /*RESUABLE COMPONENTS*/
 .clickable{cursor: pointer;}
