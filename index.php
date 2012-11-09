@@ -35,18 +35,6 @@
 		return $test;
 	  }
 
-	dispatch_post('/info', info);
-		function info(){
-			$info = env();
-			$post = $info["POST"];
-			return print_r($post['url']);
-		}
-
-	dispatch('/helloWorld', helloWorld);
-		function helloWorld(){
-			print("Hello World");
-		}
-
 	dispatch_post('/register', register);
 		function register(){
 			$env = env();
@@ -94,11 +82,13 @@
 			    return $errors[2];
 			}
 		}
+
 	dispatch('/logout', logout);
 		function logout(){
 			unset($_SESSION['user']);
 			redirect_to('');
 		}
+
 	dispatch('/admin', admin);
 		function admin(){
 			if(isset($_SESSION['user'])){
@@ -110,6 +100,12 @@
 				redirect_to('');
 			}
 		}
+
+	dispatch('/admin/data/:id', urldata);
+		function urldata(){
+			$id = params('id');
+		}
+
 
 //$url=$_POST['url'];
 		
@@ -150,7 +146,7 @@
 
 	function getUsersUrls($id){
 		$data = array('userId' => $id);
-		$query = $GLOBALS['database']->prepare('SELECT u.* FROM urls u INNER JOIN lookup l ON l.url_id = u.id INNER JOIN users us ON us.id = l.user_id WHERE us.id = :userId');
+		$query = $GLOBALS['database']->prepare('SELECT u.* FROM urls u WHERE u.user_id = :userId');
 		$query->execute($data);
 		$row = $query->fetchAll();
 		return $row;

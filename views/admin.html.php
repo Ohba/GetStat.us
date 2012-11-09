@@ -2,7 +2,6 @@
 $user = unserialize(h($user));
 $urls = unserialize(h($urls)); ?>
 <div class="main">
-	<div class="alert alert-warn">Logged In</div>
 	<div class="container">
 	  <div class="row">
 	    <div class="span4">
