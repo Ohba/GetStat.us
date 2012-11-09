@@ -121,7 +121,8 @@
 			} while ($row != 0);
 			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
 			$query->execute();
-			//echo "$url $randomString"; 
+			return
+			return $randomstring;
 		}
 
 
