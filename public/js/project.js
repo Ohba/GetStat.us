@@ -5,7 +5,8 @@ $(document).ready(function(){
 	$('#signInModal').on('click', '.signin', signIn);
 	$('#signInModal').on('click', '.register', register);
 	$('#signInModal').on('hide', modalClose);
-
+	$('.form-search').submit(shorten);
+	$('.form-search input').change(inputChanged);
 
 	//Callbacks
 	/*
@@ -72,6 +73,34 @@ $(document).ready(function(){
 			form = $(modal.find('form'));
 		_clearErrors(form);
 		_clearForm(form);
+	}
+
+	function shorten(e){
+		var form = $(e.target),
+			input = form.find('input'),
+			url = input.val();
+		if(url.trim() === ""){
+			input.addClass('red');
+			$('.main.alert').text('URL must not be empty').show();
+		}else if(input.hasClass('submitted')){
+			$('.main.alert').text('You already Shortened this url.').show();
+		}else{
+			input.removeClass('red');
+			$('.main.alert').text('').hide();
+			input.addClass('submitted');
+			$.post(window.location.origin + '/created', form.serialize())
+				.success(function(short){
+					$('#shortened').text(window.location.origin + '/g/' + short);
+				})
+				.error(function(){
+					input.removeClass('submitted');
+				});
+		}
+		return false;
+	}
+
+	function inputChanged(e){
+		$(e.target).removeClass('submitted');
 	}
 
 	//AJAX Callbacks

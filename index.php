@@ -127,42 +127,28 @@
 			return json_encode($STH->fetchAll());
 		}
 
-
-//$url=$_POST['url'];
-		
 	dispatch_post('/created',dbInsert);
-	
 		function dbInsert(){
 			$url=$_POST['url'];
+			$randomstring = '';
 			if(preg_match("/^http/",$url) == 0){
 				$url='http://'.$url;
 			}
 			do{
-				$randomstring=randomString();
-				$STH = $GLOBALS['database']->prepare("SELECT count(*) FROM urls WHERE short='$randomstring'");
-				$STH->execute();
+				$randomstring = randomString();
+				$data = array('short' => $randomstring);
+				$STH = $GLOBALS['database']->prepare("SELECT count(*) FROM urls WHERE short= :short");
+				$STH->execute($data);
 				$row = $STH->fetchColumn();
 			} while ($row != 0);
-			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values('$url','$randomstring') ");
-			$query->execute();
+			$data = array('url' => $url, 'short' => $randomstring);
+			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values(:url, :short)");
+			$query->execute($data);
 			return $randomstring;
-		}
-
-
-		function randomString($length = 10) {
-	  	  	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	    	$randomString = '';
-	       	for ($i = 0; $i < $length; $i++) {
-	        $randomString .= $characters[rand(0, strlen($characters) - 1)];
-	    	}
-
- 	   		return $randomString;
-
 		}
 
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
-
 			$data = array('stuff' => params('short'));
 			$STH = $GLOBALS['database']->prepare('SELECT destination FROM urls WHERE short = :stuff');
 			$STH->execute($data);
@@ -170,8 +156,16 @@
 			return redirect_to($row);
 		}
 
-
 	run();
+
+	function randomString($length = 10) {
+  	  	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    	$randomString = '';
+       	for ($i = 0; $i < $length; $i++) {
+        	$randomString .= $characters[rand(0, strlen($characters) - 1)];
+    	}
+	   		return $randomString;
+	}
 
 	function getUsersUrls($id){
 		$data = array('userId' => $id);

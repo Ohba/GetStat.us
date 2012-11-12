@@ -36,11 +36,14 @@
 	<a class="clickable btn btn-primary signin" data-action="/signin">Sign In</a>
   </div>
 </div>
-
+<div class="main alert alert-error hide"></div>
 <div class="main hero-unit text-center">
 	<h2>Enter a URL below to be shortened</h2>
 	<form method="post" action="created" class="form-search">
 		<input type="text" name="url" class="fun input-medium search-query" placeholder="http://"/>
 		<button class="btn btn-primary">Go!</button>
 	</form>
+</div>
+<div class="text-center">
+	<h2 id="shortened"></h2>
 </div>
