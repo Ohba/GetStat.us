@@ -144,8 +144,13 @@
 				$STH->execute($data);
 				$row = $STH->fetchColumn();
 			} while ($row != 0);
-			$data = array('url' => $url, 'short' => $randomstring);
-			$query = $GLOBALS['database']->prepare("INSERT INTO urls(destination,short) values(:url, :short)");
+			if(isset($_SESSION['user'])){
+				$id = $_SESSION['user']['id'];
+			}else{
+				$id = 0;
+			}
+			$data = array('url' => $url, 'short' => $randomstring, 'id' => $id);
+			$query = $GLOBALS['database']->prepare("INSERT INTO urls(user_id, destination,short) values(:id, :url, :short)");
 			$query->execute($data);
 			return $randomstring;
 		}

@@ -85,12 +85,16 @@ $(document).ready(function(){
 		}else if(input.hasClass('submitted')){
 			$('.main.alert').text('You already Shortened this url.').show();
 		}else{
+			$('#shortened .progress').removeClass('hide');
 			input.removeClass('red');
 			$('.main.alert').text('').hide();
 			input.addClass('submitted');
 			$.post(window.location.origin + '/created', form.serialize())
 				.success(function(short){
-					$('#shortened').text(window.location.origin + '/g/' + short);
+					$('#shortened')
+						.text(window.location.origin + '/g/' + short)
+						.closest('.text-center')
+						.removeClass('loader-fix');
 				})
 				.error(function(){
 					input.removeClass('submitted');

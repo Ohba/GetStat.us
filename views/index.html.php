@@ -44,6 +44,10 @@
 		<button class="btn btn-primary">Go!</button>
 	</form>
 </div>
-<div class="text-center">
-	<h2 id="shortened"></h2>
+<div class="text-center loader-fix">
+	<h2 id="shortened">
+		<div class="progress progress-striped active hide span4">
+		  <div class="bar" style="width: 100%;"></div>
+		</div>
+	</h2>
 </div>
