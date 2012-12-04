@@ -168,4 +168,8 @@ $(document).ready(function(){
 			}
 		}
 	};
+
+	if(typeof window.location.origin === 'undefined'){
+		window.location.origin = window.location.protocol + '//' + window.location.host;
+	}
 });

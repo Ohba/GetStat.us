@@ -35,7 +35,7 @@
 		return $referer;
 	  }
 
-	dispatch_post('/register', register);
+	dispatch_post('/register', 'register');
 		function register(){
 			$env = env();
 			$post = $env['POST'];
@@ -44,9 +44,12 @@
 							'password' => Bcrypt::hash($post['password']));
 			$query = $GLOBALS['database']->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
 			$query->execute($data);
-
+			$id = $GLOBALS['database']->lastInsertId();
+			$name = $post['name'];
+			$email = $post['email'];
 			if($query->errorCode() == 0) {
-			    return json_encode(array('name' => $post['name'], 'email' => $post['email']));
+				$_SESSION['user'] = array('name' => $name, 'email' => $email, 'id' => $id);
+			    return json_encode($_SESSION['user']);
 			} else {
 			    $errors = $query->errorInfo();
 			    status(SERVER_ERROR);
@@ -54,7 +57,7 @@
 			}
 		}
 
-	dispatch_post('/signin', signin);
+	dispatch_post('/signin', 'signin');
 		function signin(){
 			$env = env();
 			$post = $env['POST'];
@@ -83,13 +86,13 @@
 			}
 		}
 
-	dispatch('/logout', logout);
+	dispatch('/logout', 'logout');
 		function logout(){
 			unset($_SESSION['user']);
 			redirect_to('');
 		}
 
-	dispatch('/admin', admin);
+	dispatch('/admin', 'admin');
 		function admin(){
 			if(isset($_SESSION['user'])){
 				set('user', serialize($_SESSION['user']));
@@ -101,7 +104,7 @@
 			}
 		}
 
-	dispatch('/admin/donut/data/:id', urlDonutData);
+	dispatch('/admin/donut/data/:id', 'urlDonutData');
 		function urlDonutData(){
 			$id = params('id');
 			$data = array('id' => $id);
@@ -114,7 +117,7 @@
 			return json_encode($STH->fetchAll());
 		}
 
-	dispatch('/admin/line/data/:id', urlLineData);
+	dispatch('/admin/line/data/:id', 'urlLineData');
 		function urlLineData(){
 			$id = params('id');
 			$data = array('id' => $id);
@@ -127,7 +130,7 @@
 			return json_encode($STH->fetchAll());
 		}
 
-	dispatch_post('/created',dbInsert);
+	dispatch_post('/created','dbInsert');
 		function dbInsert(){
 			$url=$_POST['url'];
 			$randomstring = '';
