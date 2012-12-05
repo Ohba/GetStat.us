@@ -157,12 +157,42 @@
 
 	dispatch('/g/:short', 'stuff');
 		function stuff(){
+			$info = env();
+			$referrer = getReferrer($info);
+			$originData = array('referer' => $referrer);
+			$originquery = $GLOBALS['database']->prepare('SELECT id FROM url WHERE url = :referer');
+			$originquery->execute($originData);
+			$originid=$originquery->fetchColumn();
+			if($originid == ""){
+				$neworigin = $GLOBALS['database']->prepare('INSERT INTO origin(url) values (:referer)');				
+				$neworigin->execute($originData);
+				$originid = $GLOBALS['database']->lastInsertId();
+			}
+
 			$data = array('stuff' => params('short'));
-			$STH = $GLOBALS['database']->prepare('SELECT destination FROM urls WHERE short = :stuff');
-			$STH->execute($data);
-			$row = $STH->fetchColumn();
-			return redirect_to($row);
+			$urlquery = $GLOBALS['database']->prepare('SELECT destination, id FROM urls WHERE short = :stuff');
+			$urlquery->execute($data);
+			$row = $urlquery->fetchAll();
+			if(isset($row[0])){
+				$urlid = $row[0]['id'];
+				$destination = $row[0]['destination'];
+			}
+			$statsData = array('urlId' => $urlid, 'originId' => $originid);
+			$statsquery = $GLOBALS['database']->prepare("INSERT INTO stats(url_id,origin_id) values(:urlId,:originId)");
+			$statsquery->execute($statsData);
+			return redirect_to($destination);
 		}
+		function getReferrer($info){
+	  		$referer = "unknown";
+	  		if(isset($info["SERVER"])){
+	  			$server = $info["SERVER"];
+	  			if(isset($server["HTTP_REFERER"])){
+	  				$referer = $server["HTTP_REFERER"];
+	  			}
+	  				
+	  	}
+		return $referer;
+	  }
 
 	run();
 

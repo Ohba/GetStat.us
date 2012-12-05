@@ -34,7 +34,7 @@
 			  </li>
 			</ul>
 			<?php if($user){ ?>
-				<a id="user" class="pull-right welcome">Welcome <?php echo $user['name'] ?>!</a>
+				<a href="/admin" id="user" class="pull-right welcome">Welcome <?php echo $user['name'] ?>!</a>
 			<?php } else { ?>
 				<a id="user" class="pull-right welcome hide"></a>
 			<?php } ?>
