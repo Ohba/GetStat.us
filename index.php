@@ -33,7 +33,7 @@
 	  		$referer = $server["HTTP_REFERER"];
 			$pattern = '/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)/';
 			preg_match($pattern, $referer, $matches);
-			return print_r($matches[0]);
+			return print_r($matches[3]);
 	  	}
 		return $referer;
 	  }
@@ -186,14 +186,14 @@
 			return redirect_to($destination);
 		}
 	function getReferrer($info){
-		$referer = "unknown";
+		$referer = "None";
 		if(isset($info["SERVER"])){
 			$server = $info["SERVER"];
 			if(isset($server["HTTP_REFERER"])){
 				$referer = $server["HTTP_REFERER"];
 				$pattern = '/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)/';
 				preg_match($pattern, $referer, $matches);
-				$referer = $matches[0];
+				$referer = $matches[3];
 			}			
 		}
 		return $referer;
