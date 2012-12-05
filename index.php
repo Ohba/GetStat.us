@@ -31,6 +31,9 @@
 	  	if(isset($info["SERVER"])){
 	  		$server = $info["SERVER"];
 	  		$referer = $server["HTTP_REFERER"];
+			$pattern = '/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)/';
+			preg_match($pattern, $referer, $matches);
+			return print_r($matches[0]);
 	  	}
 		return $referer;
 	  }
@@ -160,7 +163,7 @@
 			$info = env();
 			$referrer = getReferrer($info);
 			$originData = array('referer' => $referrer);
-			$originquery = $GLOBALS['database']->prepare('SELECT id FROM url WHERE url = :referer');
+			$originquery = $GLOBALS['database']->prepare('SELECT id FROM origin WHERE url = :referer');
 			$originquery->execute($originData);
 			$originid=$originquery->fetchColumn();
 			if($originid == ""){
@@ -182,17 +185,19 @@
 			$statsquery->execute($statsData);
 			return redirect_to($destination);
 		}
-		function getReferrer($info){
-	  		$referer = "unknown";
-	  		if(isset($info["SERVER"])){
-	  			$server = $info["SERVER"];
-	  			if(isset($server["HTTP_REFERER"])){
-	  				$referer = $server["HTTP_REFERER"];
-	  			}
-	  				
-	  	}
+	function getReferrer($info){
+		$referer = "unknown";
+		if(isset($info["SERVER"])){
+			$server = $info["SERVER"];
+			if(isset($server["HTTP_REFERER"])){
+				$referer = $server["HTTP_REFERER"];
+				$pattern = '/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)/';
+				preg_match($pattern, $referer, $matches);
+				$referer = $matches[0];
+			}			
+		}
 		return $referer;
-	  }
+	}
 
 	run();
 
