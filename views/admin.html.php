@@ -37,22 +37,27 @@ $urls = unserialize(h($urls)); ?>
 		
 	});
 	function loadLineGraph(id){
+		$('#line').empty();
 		$.get('/admin/line/data/' + id, function(data){
 			var line = [];
 			for(var i in data){
 				var newData = data[i]; 
-				line.push({y: newData[0], a: ~~newData[1]});
+				var day = new Date(newData[0]);
+				day = day.getFullYear() + '-' + (day.getMonth() + 1) + '-' + day.getDate();
+				line.push({y: day, a: ~~newData[1]});
 			}
 			Morris.Line({
 			  element: 'line',
 			  data: line,
 			  xkey: 'y',
 			  ykeys: ['a'],
-			  labels: ['Series A']
+			  xLabels: 'day',
+			  labels: ['Clicks']
 			});
 		}, 'json');
 	}
 	function loadDonutGraph(id){
+		$('#donut').empty();
 		$.get('/admin/donut/data/' + id, function(data){
 			var donut = [];
 			for(var i in data){
