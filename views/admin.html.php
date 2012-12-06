@@ -1,6 +1,8 @@
 <?php 
 $user = unserialize(h($user));
-$urls = unserialize(h($urls)); ?>
+$urls = unserialize(h($urls)); 
+$host = $_SERVER['HTTP_HOST'];
+?>
 <div class="main">
 	<div class="container">
 	  <div class="row">
@@ -15,7 +17,7 @@ $urls = unserialize(h($urls)); ?>
 				<tbody>
 					<?php foreach ($urls as  $url) {?>
 						<tr>
-							<td><a href="http://getstat.us/g/<?php echo $url['short'] ?>">getstat.us/g/<?php echo $url['short'] ?></a></td>
+							<td><a href="http://<?php echo $host ?>/g/<?php echo $url['short'] ?>"><?php echo $host ?>/g/<?php echo $url['short'] ?></a></td>
 							<td data-id="<?php echo $url['id'] ?>">Get Stats</td>
 						</tr>
 					<?php } ?>
@@ -34,7 +36,6 @@ $urls = unserialize(h($urls)); ?>
 		var id = $(this).attr('data-id');
 		loadLineGraph(id);
 		loadDonutGraph(id);
-		
 	});
 	function loadLineGraph(id){
 		$('#line').empty();
