@@ -25,7 +25,7 @@ $host = $_SERVER['HTTP_HOST'];
 			</table>
 	    </div>
 	    <div class="span8 text-center">
-	    	<h2 id="urlTitle"></h2>
+	    	<h2 id="urlTitle" class="break-word"></h2>
 			<div id="line"></div>
 			<div id="donut"></div>
 	    </div>

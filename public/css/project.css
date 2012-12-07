@@ -14,3 +14,4 @@ input[type="text"].fun{width: 730px;height: 25px;border-radius: 15px;}
 .text-center{text-align: center;}
 .loader-fix{width: 32%; margin: auto;}
 form input.red{border: 1px solid red;}
+.break-word{word-wrap: break-word;}
