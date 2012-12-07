@@ -24,9 +24,10 @@ $host = $_SERVER['HTTP_HOST'];
 				</tbody>
 			</table>
 	    </div>
-	    <div class="span8">
-	      <div id="line"></div>
-	      <div id="donut"></div>
+	    <div class="span8 text-center">
+	    	<h2 id="urlTitle"></h2>
+			<div id="line"></div>
+			<div id="donut"></div>
 	    </div>
 	  </div>
 	</div>
@@ -36,7 +37,14 @@ $host = $_SERVER['HTTP_HOST'];
 		var id = $(this).attr('data-id');
 		loadLineGraph(id);
 		loadDonutGraph(id);
+		getUrlData(id);
 	});
+	function getUrlData(id){
+		$.get('/admin/url/data/' + id, function(data){
+			$('#urlTitle').empty().text(data[0].destination);
+		}, 'json');
+	}
+
 	function loadLineGraph(id){
 		$('#line').empty();
 		$.get('/admin/line/data/' + id, function(data){

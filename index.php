@@ -107,6 +107,15 @@
 			}
 		}
 
+	dispatch('/admin/url/data/:id', 'urlData');
+		function urlData(){
+			$id = params('id');
+			$urlData = array('id' => $id);
+			$urlQuery = $GLOBALS['database']->prepare("SELECT * from urls where id = :id");
+			$urlQuery->execute($urlData);
+			return json_encode($urlQuery->fetchAll());
+		}
+
 	dispatch('/admin/donut/data/:id', 'urlDonutData');
 		function urlDonutData(){
 			$id = params('id');
