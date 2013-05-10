@@ -1,0 +1,14 @@
+{
+    pathPackage: 'co.ohba.getstatus.resources',
+    entityPackage: 'co.ohba.getstatus.entities',
+
+    dataStoreType: 'MONGO',
+
+    mongo: {
+        host:'',
+        port: '',
+        db:'',
+        user:'',
+        password:''
+    }
+}

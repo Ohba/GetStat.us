@@ -38,12 +38,21 @@
         <version>4.11</version>
         <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.mashape.unirest</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>1.0.0</version>
+    </dependency>
   </dependencies>
 
   <repositories>
     <repository>
       <id>ohba</id>
       <url>https://raw.github.com/Ohba/Autumn/master/repo</url>
+    </repository>
+    <repository>
+      <id>mashape-releases</id>
+      <url>http://maven.mashape.com/releases</url>
     </repository>
   </repositories>
 
