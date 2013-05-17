@@ -3,8 +3,8 @@ package co.ohba.getstatus.clouds;
 import co.ohba.getstatus.enums.Status;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
-
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,33 +12,34 @@ import java.net.URL;
 /**
  * Created with IntelliJ IDEA.
  * User: andre
- * Date: 5/9/13
- * Time: 10:08 PM
+ * Date: 5/16/13
+ * Time: 10:57 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HerokuCloud implements Cloud<JsonNode>{
+@Slf4j
+public class GithubCloud implements Cloud<JsonNode>{
 
     private Status status;
 
     @Override
     public String getName() {
-        return "Heroku";
+        return "Github";
     }
 
     @Override
     public URL getUrl() throws MalformedURLException {
-        return new URL("https://status.heroku.com/api/v3/current-status");
+        return new URL("https://status.github.com/api/status.json");
     }
 
     @Override
     public void setStatus(HttpResponse<JsonNode> response) {
         String prod = null;
         try {
-            prod = response.getBody().getObject().getJSONObject("status").getString("Production");
+            prod = response.getBody().getObject().getString("status");
         } catch (JSONException e) {
-            prod = "red";
+            prod = "bad";
         }
-        if(prod.equals("green")){
+        if(prod.equals("good")){
             status =  Status.OK;
         } else {
             status = Status.ERROR;
@@ -49,5 +50,4 @@ public class HerokuCloud implements Cloud<JsonNode>{
     public Status getStatus() {
         return status;
     }
-
 }

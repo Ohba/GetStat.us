@@ -17,5 +17,6 @@ public interface Cloud<T>{
 
     String getName();
     URL getUrl() throws MalformedURLException;
-    Status getStatus(HttpResponse<T> response);
+    void setStatus(HttpResponse<T> response);
+    Status getStatus();
 }
