@@ -2,6 +2,7 @@ package co.ohba.getstatus.clouds;
 
 import co.ohba.getstatus.enums.Status;
 import com.mashape.unirest.http.HttpResponse;
+import org.joda.time.DateTime;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +18,9 @@ public interface Cloud<T>{
 
     String getName();
     URL getUrl() throws MalformedURLException;
-    void setStatus(HttpResponse<T> response);
     Status getStatus();
+
+    DateTime getTimestamp();
+
+    void parse(HttpResponse<T> response, DateTime timestamp);
 }

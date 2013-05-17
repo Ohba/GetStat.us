@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -34,9 +35,8 @@ public class CloudResource {
 
     @GET
     @Path("/{cloudName}")
-    public Response getCloud(@PathParam("cloudName") String cloudName){
-
-        return Response.ok().build();
+    public Cloud getCloud(@PathParam("cloudName") String cloudName) throws MalformedURLException {
+        return service.getCloudStatus(cloudName);
     }
 
 }

@@ -3,8 +3,9 @@ package co.ohba.getstatus.clouds;
 import co.ohba.getstatus.enums.Status;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import lombok.Getter;
+import org.joda.time.DateTime;
 import org.json.JSONException;
-
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,12 +19,12 @@ import java.net.URL;
  */
 public class HerokuCloud implements Cloud<JsonNode>{
 
+    @Getter
     private Status status;
-
-    @Override
-    public String getName() {
-        return "Heroku";
-    }
+    @Getter
+    private DateTime timestamp;
+    @Getter
+    private String name = "Heroku";
 
     @Override
     public URL getUrl() throws MalformedURLException {
@@ -31,7 +32,8 @@ public class HerokuCloud implements Cloud<JsonNode>{
     }
 
     @Override
-    public void setStatus(HttpResponse<JsonNode> response) {
+    public void parse(HttpResponse<JsonNode> response, DateTime timestamp) {
+        this.timestamp = timestamp;
         String prod = null;
         try {
             prod = response.getBody().getObject().getJSONObject("status").getString("Production");
@@ -43,11 +45,6 @@ public class HerokuCloud implements Cloud<JsonNode>{
         } else {
             status = Status.ERROR;
         }
-    }
-
-    @Override
-    public Status getStatus() {
-        return status;
     }
 
 }
