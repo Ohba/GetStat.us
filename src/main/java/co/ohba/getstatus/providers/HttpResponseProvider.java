@@ -22,7 +22,7 @@ public class HttpResponseProvider  {
 
     public TimedResponse<JsonNode> getJson(URL url) {
 
-        DateTime timestamp = jsonCache.get(url)==null?null:jsonCache.get(url).getDatetime();
+        DateTime timestamp = jsonCache.get(url) == null ? null : jsonCache.get(url).getDatetime();
 
         DateTime someMinAgo = DateTime.now().minusMinutes(THRESHHOLD);
 

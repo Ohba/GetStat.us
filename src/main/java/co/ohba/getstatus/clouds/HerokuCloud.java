@@ -1,5 +1,6 @@
 package co.ohba.getstatus.clouds;
 
+import co.ohba.getstatus.enums.ResponseType;
 import co.ohba.getstatus.enums.Status;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -10,13 +11,6 @@ import org.json.JSONException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created with IntelliJ IDEA.
- * User: andre
- * Date: 5/9/13
- * Time: 10:08 PM
- * To change this template use File | Settings | File Templates.
- */
 public class HerokuCloud implements Cloud<JsonNode>{
 
     @Getter
@@ -25,6 +19,8 @@ public class HerokuCloud implements Cloud<JsonNode>{
     private DateTime timestamp;
     @Getter
     private String name = "Heroku";
+    @Getter
+    private ResponseType responseType = ResponseType.JSON;
 
     @Override
     public URL getUrl() throws MalformedURLException {
@@ -46,5 +42,4 @@ public class HerokuCloud implements Cloud<JsonNode>{
             status = Status.ERROR;
         }
     }
-
 }
