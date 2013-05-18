@@ -13,13 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created with IntelliJ IDEA.
- * User: andre
- * Date: 5/9/13
- * Time: 10:33 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CloudService {
 
     @Inject CloudInstanceProvider cloudProvider;
@@ -29,9 +22,16 @@ public class CloudService {
 
         Cloud cloud = cloudProvider.get(cloudName.toLowerCase());
 
-        HttpResponseProvider.TimedResponse<JsonNode> response =  httpProvider.getJson(cloud.getUrl());
-
-        cloud.parse(response.getResponse(), response.getDatetime());
+        switch (cloud.getResponseType()){
+            case JSON:
+                HttpResponseProvider.TimedResponse<JsonNode> jsonResponse =  httpProvider.getJson(cloud.getUrl());
+                cloud.parse(jsonResponse.getResponse(), jsonResponse.getDatetime());
+                break;
+            case TEXT:
+                HttpResponseProvider.TimedResponse<String> stringResponse =  httpProvider.getString(cloud.getUrl());
+                cloud.parse(stringResponse.getResponse(), stringResponse.getDatetime());
+                break;
+        }
 
         return cloud;
     }

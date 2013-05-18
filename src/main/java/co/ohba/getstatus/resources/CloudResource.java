@@ -13,13 +13,6 @@ import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: andre
- * Date: 5/16/13
- * Time: 10:04 PM
- * To change this template use File | Settings | File Templates.
- */
 @Path("/clouds")
 @Produces(MediaType.APPLICATION_JSON)
 public class CloudResource {

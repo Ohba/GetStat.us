@@ -19,6 +19,7 @@ public class HttpResponseProvider  {
     private static final Integer THRESHHOLD = 5;
 
     private Map<URL,TimedResponse<JsonNode>> jsonCache = new ConcurrentHashMap<>();
+    private Map<URL,TimedResponse<String>> stringCache = new ConcurrentHashMap<>();
 
     public TimedResponse<JsonNode> getJson(URL url) {
 
@@ -28,8 +29,7 @@ public class HttpResponseProvider  {
 
         if(timestamp == null || timestamp.isBefore(someMinAgo)){
             log.info("cache is old lets GET again");
-            updateCache(url);
-
+            updateJsonCache(url);
         } else {
             log.info("i am able to read from cache");
         }
@@ -37,9 +37,31 @@ public class HttpResponseProvider  {
         return jsonCache.get(url);
     }
 
-    private void updateCache(URL url) {
+    public TimedResponse<String> getString(URL url){
+
+        DateTime timestamp = stringCache.get(url) == null ? null : stringCache.get(url).getDatetime();
+
+        DateTime someMinAgo = DateTime.now().minusMinutes(THRESHHOLD);
+
+        if(timestamp == null || timestamp.isBefore(someMinAgo)){
+            log.info("cache is old lets GET again");
+            updateStringCache(url);
+        } else {
+            log.info("i am able to read from cache");
+        }
+
+        return stringCache.get(url);
+    }
+
+
+    private void updateJsonCache(URL url) {
         HttpResponse<JsonNode> res = Unirest.get(url.toString()).asJson();
         jsonCache.put(url,new TimedResponse(res, DateTime.now() ));
+    }
+
+    private void updateStringCache(URL url) {
+        HttpResponse<String> res = Unirest.get(url.toString()).asString();
+        stringCache.put(url,new TimedResponse(res, DateTime.now() ));
     }
 
     @Data
