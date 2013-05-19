@@ -1,6 +1,10 @@
 var App = Ember.Application.create({});
+App.Store = DS.Store.extend({
+    revision: 12,
+    url: 'http://localhost:8080'
+});
 
-App.cloud = DS.Model.extend({
+App.Cloud = DS.Model.extend({
     name: DS.attr('string'),
     status: DS.attr('string'),
     url: DS.attr('string'),
@@ -8,15 +12,11 @@ App.cloud = DS.Model.extend({
     responseType: DS.attr('string')
 });
 
-
 App.IndexRoute = Ember.Route.extend({
     setupController: function(controller) {
-        var clouds = App.cloud.all();
-        console.log(clouds);
-        controller.set('content', clouds);
+        //Seriously I need to use jQuery??? WTF Ember!
+        $.getJSON("/clouds", function(clouds){
+            controller.set('content', clouds);
+        });
     }
-});
-
-$(function() {
-    App.initialize();
 });

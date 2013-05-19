@@ -4,13 +4,18 @@
         <title>GetStat.us</title>
         <script src="components/jquery/jquery.min.js"></script>
         <script src="components/handlebars/handlebars.js"></script>
-        <script src="components/ember.js/ember.min.js"></script>
-        <script src="components/ember-data/ember-data.js"></script>
+        <script src="http://builds.emberjs.com.s3.amazonaws.com/ember-latest.js"></script>
+        <script src="http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.js"></script>
         <script src="js/app.js"></script>
     </head>
     <body>
     <script type="text/x-handlebars" data-template-name="index">
         <h1>Welcome to GetStat.us</h1>
+        <ul>
+            {{#each content}}
+            <li>{{name}}</li>
+            {{/each}}
+        </ul>
     </script>
     </body>
 </html>
