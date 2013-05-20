@@ -9,7 +9,7 @@
     <body ng-controller="cloudCtrl">
         <h1>Welcome to GetStat.us</h1>
         <ul>
-            <li ng-click="getCloud(cloud.name)" ng-repeat="cloud in clouds">{{cloud.name}}</li>
+            <li ng-repeat="cloud in clouds"><a href="" ng-click="getCloud(cloud.name)">{{cloud.name}}</a></li>
         </ul>
         <div>
             <dl ng-show="cloud">
@@ -17,6 +17,10 @@
                 <dd>{{cloud.name}}</dd>
                 <dt>Status</dt>
                 <dd>{{cloud.status}}</dd>
+                <dt>Timestamp</dt>
+                <dd>{{cloud.timestamp | date:'medium'}}</dd>
+                <dt>URL</dt>
+                <dd><a href="{{cloud.url}}">{{cloud.url}}</a></dd>
             </dl>
         </div>
     </body>
