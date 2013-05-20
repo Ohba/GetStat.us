@@ -12,5 +12,5 @@
         password:''
     },
 
-    securityRealmClass: 'co.ohba.getstatus.SecRealm'
+    securityRealmClass: 'co.ohba.getstatus.JpaRealm'
 }

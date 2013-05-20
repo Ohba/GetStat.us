@@ -3,6 +3,7 @@ package co.ohba.getstatus.entities;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +16,9 @@ import javax.persistence.Entity;
 @Entity
 public class Geek {
 
+    @Id
     private Long id;
-    private String name;
-    private String username;
-    private String email;
+
+    private String name, username, email, password;
 
 }
