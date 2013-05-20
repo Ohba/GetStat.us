@@ -12,6 +12,12 @@ App.Cloud = DS.Model.extend({
     responseType: DS.attr('string')
 });
 
+App.Clickable = Ember.View.extend({
+    click: function(evt) {
+        console.log("ClickableView was clicked!", evt);
+    }
+});
+
 App.IndexRoute = Ember.Route.extend({
     setupController: function(controller) {
         //Seriously I need to use jQuery??? WTF Ember!

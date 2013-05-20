@@ -13,7 +13,9 @@
         <h1>Welcome to GetStat.us</h1>
         <ul>
             {{#each content}}
-            <li>{{name}}</li>
+                {{#view App.Clickable}}
+                    <li>{{name}}</li>
+                {{/view}}
             {{/each}}
         </ul>
     </script>
