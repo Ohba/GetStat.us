@@ -3,6 +3,7 @@ package co.ohba.getstatus.entities;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -16,9 +17,11 @@ import javax.persistence.Id;
 @Entity
 public class Geek {
 
-    @Id
+    @Id @GeneratedValue
     private Long id;
 
-    private String name, username, email, password;
+    private String name, username, email, hashedPw;
+
+    private byte[] pwSalt;
 
 }

@@ -2,13 +2,12 @@
     pathPackage: 'co.ohba.getstatus.resources',
     entityPackage: 'co.ohba.getstatus.entities',
 
-    dataStoreType: 'MONGO',
+    dataStoreType: 'JDBC',
 
-    mongo: {
-        host:'',
-        port: '',
-        db:'',
-        user:'',
+    jdbc: {
+        driver: 'org.h2.Driver',
+        url:'jdbc:h2:file:data/sample',
+        user:'sa',
         password:''
     },
 

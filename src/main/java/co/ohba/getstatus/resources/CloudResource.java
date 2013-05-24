@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 @Slf4j
-@Path("/clouds")
+@Path("/api/clouds")
 @Produces(MediaType.APPLICATION_JSON)
 public class CloudResource {
 
