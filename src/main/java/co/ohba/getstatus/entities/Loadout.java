@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Loadout {
     private Long id;
     private String name;
     private Long geekId;
+    @ElementCollection
     private List<String> clouds;
     private Date created;
     private Date updated;

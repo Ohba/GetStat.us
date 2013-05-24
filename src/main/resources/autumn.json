@@ -10,7 +10,5 @@
         db:'',
         user:'',
         password:''
-    },
-
-    securityRealmClass: 'co.ohba.getstatus.JpaRealm'
+    }
 }
