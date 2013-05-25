@@ -134,7 +134,7 @@ public class GoogleAppsClouds {
     }
 
     public static class GoogleAppsAdminControlApiCloud extends AbstractGoogleAppsCloud {
-        @Getter String name = "Google-Apps-Admin-Control-API";
+        @Getter String name = "Google-Apps-AdminControlAPI";
         @Getter String serviceName = "Admin control panel / API";
     }
 
